@@ -1,0 +1,97 @@
+name: Build APK
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+      - name: Unpack project
+        run: |
+          base64 -d > p.tgz <<'PROJECT_END'
+          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
+          8B93PHzTAHgAAA==
+          PROJECT_END
+          tar xzf p.tgz
+      - name: Build
+        working-directory: ZalgoKeyboard
+        run: gradle assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ZalgoKeyboard-APK
+          path: ZalgoKeyboard/app/build/outputs/apk/debug/app-debug.apk
+          
